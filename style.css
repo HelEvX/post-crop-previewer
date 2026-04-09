@@ -1,0 +1,624 @@
+/* ─────────────────────────────────────────────────────────────
+   Social Post Previewer — style.css
+   Aesthetic: dark editorial, DM Mono / DM Sans, ruled-paper grid
+   ───────────────────────────────────────────────────────────── */
+
+@import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap");
+
+/* ── Reset & base ───────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+    --bg:          #0e0e0f;
+    --surface:     #161618;
+    --surface-2:   #1e1e21;
+    --border:      rgba(255,255,255,0.08);
+    --border-mid:  rgba(255,255,255,0.14);
+    --text:        #e8e8ea;
+    --text-dim:    rgba(232,232,234,0.45);
+    --text-faint:  rgba(232,232,234,0.2);
+    --accent:      #e8e8ea;
+    --ig:          #c13584;
+    --li:          #0077b5;
+    --fb:          #1877f2;
+    --mono:        "DM Mono", "Courier New", monospace;
+    --sans:        "DM Sans", system-ui, sans-serif;
+    --radius-sm:   4px;
+    --radius-md:   8px;
+    --radius-lg:   12px;
+    --transition:  0.18s ease;
+}
+
+html { font-size: 15px; }
+
+body {
+    font-family: var(--sans);
+    background-color: var(--bg);
+    /* subtle ruled-paper grid */
+    background-image:
+            linear-gradient(var(--border) 1px, transparent 1px);
+    background-size: 100% 2.4rem;
+    color: var(--text);
+    min-height: 100vh;
+    padding: 2.5rem 2rem 5rem;
+}
+
+main {
+    max-width: 1240px;
+    margin: 0 auto;
+}
+
+/* ── Header ─────────────────────────────────────────────────── */
+.site-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border-mid);
+}
+
+.header-left { display: flex; flex-direction: column; gap: 0.3rem; }
+
+.site-title {
+    font-family: var(--mono);
+    font-size: 1.35rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    transition: opacity var(--transition);
+    user-select: none;
+}
+.site-title:hover { opacity: 0.6; }
+
+.site-sub {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    letter-spacing: 0.01em;
+}
+
+.header-links {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+.header-links a {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    text-decoration: none;
+    padding: 0.3rem 0.65rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    transition: color var(--transition), border-color var(--transition);
+}
+.header-links a:hover {
+    color: var(--text);
+    border-color: var(--border-mid);
+}
+
+/* ── Upload zone ─────────────────────────────────────────────── */
+.upload-zone {
+    border: 1px dashed var(--border-mid);
+    border-radius: var(--radius-lg);
+    padding: 4rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color var(--transition), background var(--transition);
+    margin-bottom: 2.5rem;
+}
+.upload-zone:hover,
+.upload-zone.drag-over {
+    border-color: rgba(255,255,255,0.4);
+    background: rgba(255,255,255,0.02);
+}
+
+.upload-inner { display: flex; flex-direction: column; align-items: center; gap: 0.6rem; }
+
+.upload-icon {
+    font-size: 2rem;
+    line-height: 1;
+    color: var(--text-dim);
+}
+.upload-label {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text);
+}
+.upload-hint {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--text-faint);
+    letter-spacing: 0.03em;
+}
+
+#file-input { display: none; }
+
+/* ── Workspace ───────────────────────────────────────────────── */
+.workspace { animation: fadeIn 0.3s ease; }
+.workspace.hidden { display: none; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Meta bar ─────────────────────────────────────────────────── */
+.meta-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text-dim);
+}
+.meta-filename {
+    color: var(--text);
+    font-weight: 500;
+    max-width: 260px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.meta-divider { color: var(--text-faint); }
+.meta-bar .btn-ghost { margin-left: auto; }
+
+/* ── Preview grid ─────────────────────────────────────────────── */
+.preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+/* ── Preview card ─────────────────────────────────────────────── */
+.preview-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.platform-label {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+}
+.platform-instagram { background: rgba(193,53,132,0.15); color: #e87dc4; }
+.platform-linkedin  { background: rgba(0,119,181,0.15);  color: #60aedd; }
+.platform-facebook  { background: rgba(24,119,242,0.15); color: #6fa8f5; }
+
+.format-label {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--text-faint);
+}
+
+/* Stage wrapper (holds phone chrome, feed chrome, or grid mock) */
+.card-stage-wrapper {
+    background: var(--surface-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    flex: 1;
+}
+
+/* ── Crop stage (the actual interactive crop area) ───────────── */
+.crop-stage {
+    position: relative;
+    overflow: hidden;
+    cursor: move;
+    user-select: none;
+    -webkit-user-select: none;
+    background: #000;
+}
+.crop-stage.active-stage { touch-action: none; }
+
+.stage-image {
+    position: absolute;
+    display: block;
+    user-select: none;
+    -webkit-user-drag: none;
+    pointer-events: none;
+    max-width: none;
+}
+
+/* Letterbox bars */
+.letterbox {
+    position: absolute;
+    left: 0; right: 0;
+    background: #000;
+    z-index: 2;
+    pointer-events: none;
+}
+.letterbox-top  { top: 0; }
+.letterbox-bottom { bottom: 0; }
+.letterbox.hidden { display: none; }
+
+/* ── Phone chrome (Instagram portrait) ───────────────────────── */
+.phone-chrome {
+    background: #fff;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+    width: 220px;
+}
+.phone-chrome--portrait { /* portrait phone shape */ }
+
+.phone-status-bar {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.35rem 0.75rem 0.25rem;
+    font-size: 0.6rem;
+    font-family: var(--mono);
+    color: #111;
+    background: #fff;
+}
+
+.ig-header {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.6rem;
+    background: #fff;
+}
+.ig-avatar {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+}
+.ig-username {
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: #111;
+    flex: 1;
+}
+.ig-follow {
+    font-size: 0.6rem;
+    color: #0095f6;
+    font-weight: 600;
+}
+
+/* The crop stage inside the phone fills the full width */
+#stage-ig-portrait {
+    width: 220px;
+    /* height set by JS based on 4:5 ratio = 220 * 1.25 = 275 */
+    height: 275px;
+}
+
+.ig-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.45rem 0.65rem 0.5rem;
+    background: #fff;
+}
+.ig-icon { font-size: 0.85rem; cursor: default; }
+.ig-save { margin-left: auto; }
+
+/* ── Instagram grid mock ─────────────────────────────────────── */
+.ig-grid-mock {
+    background: #fff;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+    width: 210px;
+}
+
+.ig-grid-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: #dbdbdb;
+}
+.ig-grid-cell {
+    aspect-ratio: 3 / 4;
+    background: #fafafa;
+    position: relative;
+    overflow: hidden;
+}
+.ig-grid-cell--placeholder {
+    background: #efefef;
+}
+/* The crop stage inside the grid cell */
+#stage-ig-grid {
+    width: 100%;
+    height: 100%;
+}
+
+/* ── Feed chrome (LinkedIn / Facebook) ────────────────────────── */
+.feed-chrome {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+    width: 280px;
+}
+.feed-chrome--linkedin { background: #fff; }
+.feed-chrome--facebook { background: #fff; }
+
+.feed-post-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.65rem 0.65rem 0.4rem;
+    position: relative;
+}
+.feed-avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #a8c0ff, #3f2b96);
+    flex-shrink: 0;
+}
+.feed-avatar--facebook {
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+}
+.feed-author-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.05rem;
+}
+.feed-author-name {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #111;
+}
+.feed-author-sub {
+    font-size: 0.55rem;
+    color: #666;
+}
+
+.fb-more {
+    position: absolute;
+    right: 0.6rem; top: 0.6rem;
+    font-size: 0.75rem;
+    color: #666;
+    letter-spacing: 1px;
+}
+
+.feed-caption {
+    font-size: 0.6rem;
+    color: #333;
+    padding: 0 0.65rem 0.4rem;
+    line-height: 1.4;
+}
+
+/* LinkedIn & FB crop stages fill full width of the chrome */
+#stage-linkedin,
+#stage-fb-post {
+    width: 280px;
+    height: 147px; /* 280 / 1.91 ≈ 147 */
+}
+
+.feed-reactions {
+    display: flex;
+    justify-content: space-around;
+    padding: 0.45rem 0.5rem;
+    font-size: 0.6rem;
+    color: #666;
+    border-top: 1px solid #e8e8e8;
+}
+.feed-reactions--facebook { color: #444; }
+
+/* ── Facebook album mock ─────────────────────────────────────── */
+.fb-album-mock {
+    background: #fff;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+    width: 220px;
+}
+.fb-album-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows:  1fr 1fr;
+    gap: 2px;
+    background: #e4e6eb;
+}
+.fb-album-cell {
+    aspect-ratio: 1 / 1;
+    background: #f0f2f5;
+    position: relative;
+    overflow: hidden;
+}
+.fb-album-cell--placeholder { background: #dde1e7; }
+
+#stage-fb-album {
+    width: 100%;
+    height: 100%;
+}
+
+/* ── Card controls ─────────────────────────────────────────────── */
+.card-controls {
+    padding: 0.85rem 1rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* Landscape toggle */
+.landscape-toggle {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--text-dim);
+}
+.landscape-toggle.hidden { display: none; }
+
+.toggle-btn {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    background: transparent;
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.2rem 0.5rem;
+    cursor: pointer;
+    transition: color var(--transition), border-color var(--transition), background var(--transition);
+}
+.toggle-btn.active {
+    color: var(--text);
+    border-color: var(--border-mid);
+    background: var(--surface-2);
+}
+.toggle-btn:hover:not(.active) {
+    border-color: var(--border-mid);
+    color: var(--text);
+}
+
+/* Zoom row */
+.zoom-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--text-dim);
+}
+.zoom-row label { flex-shrink: 0; width: 2.8rem; }
+
+.zoom-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    flex: 1;
+    height: 3px;
+    background: linear-gradient(
+            to right,
+            rgba(255,255,255,0.3) 0%,
+            rgba(255,255,255,0.3) 0%,
+            rgba(255,255,255,0.1) 0%,
+            rgba(255,255,255,0.1) 100%
+    );
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+}
+.zoom-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--text);
+}
+.zoom-slider::-moz-range-thumb {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--text);
+    border: none;
+}
+
+.zoom-value {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--text-faint);
+    min-width: 3rem;
+    text-align: right;
+}
+
+.crop-info {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--text-faint);
+}
+
+/* ── Download bar ─────────────────────────────────────────────── */
+.download-bar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding: 1.25rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+}
+
+.download-label {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    flex-shrink: 0;
+}
+
+.download-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.btn-download {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border-mid);
+    border-radius: var(--radius-sm);
+    padding: 0.35rem 0.75rem;
+    cursor: pointer;
+    transition: background var(--transition), border-color var(--transition);
+}
+.btn-download:hover {
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(255,255,255,0.3);
+}
+
+/* ── Utility buttons ─────────────────────────────────────────── */
+.btn-ghost {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    background: transparent;
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.25rem 0.65rem;
+    cursor: pointer;
+    transition: color var(--transition), border-color var(--transition);
+}
+.btn-ghost:hover {
+    color: var(--text);
+    border-color: var(--border-mid);
+}
+.btn-sm { font-size: 0.68rem; padding: 0.2rem 0.5rem; }
+
+/* ── Responsive ──────────────────────────────────────────────── */
+@media (max-width: 680px) {
+    body { padding: 1.5rem 1rem 4rem; }
+
+    .site-header { margin-bottom: 2rem; }
+    .site-title  { font-size: 1.1rem; }
+
+    .preview-grid { grid-template-columns: 1fr; }
+
+    .phone-chrome { width: 200px; }
+    #stage-ig-portrait { width: 200px; height: 250px; }
+
+    .feed-chrome { width: 260px; }
+    #stage-linkedin,
+    #stage-fb-post { width: 260px; height: 136px; }
+
+    .ig-grid-mock { width: 195px; }
+
+    .fb-album-mock { width: 200px; }
+
+    .download-bar { flex-direction: column; align-items: flex-start; }
+}

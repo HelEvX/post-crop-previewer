@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+            name="description"
+            content="Preview how your image will appear as a post on Instagram, LinkedIn, and Facebook before you upload it."
+    />
+    <title>Social Post Previewer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+            href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap"
+            rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<main>
+    <!-- ── Header ─────────────────────────────────────────────── -->
+    <header class="site-header">
+        <div class="header-left">
+            <h1 class="site-title" id="page-title" onclick="location.reload()" title="Reload">
+                Social Post Previewer
+            </h1>
+            <p class="site-sub">See your image as it appears across platforms — before you post.</p>
+        </div>
+        <nav class="header-links">
+            <a href="https://github.com/sheetau/pfpcropper" target="_blank" rel="noopener noreferrer">
+                Original by Sheeta ↗
+            </a>
+            <a href="https://github.com/" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        </nav>
+    </header>
+
+    <!-- ── Upload zone ────────────────────────────────────────── -->
+    <section
+            id="upload-zone"
+            class="upload-zone"
+            role="button"
+            aria-label="Upload image"
+            tabindex="0"
+    >
+        <div class="upload-inner">
+            <span class="upload-icon">↑</span>
+            <p class="upload-label">Drop or click to upload</p>
+            <p class="upload-hint">JPG, PNG, WEBP — any size</p>
+        </div>
+    </section>
+
+    <input type="file" id="file-input" accept="image/*" />
+
+    <!-- ── Main workspace (hidden until image loaded) ─────────── -->
+    <div id="workspace" class="workspace hidden">
+
+        <!-- Image meta bar -->
+        <div class="meta-bar">
+            <span id="meta-filename" class="meta-filename">—</span>
+            <span class="meta-divider">·</span>
+            <span id="meta-dims" class="meta-item">—</span>
+            <span class="meta-divider">·</span>
+            <span id="meta-size" class="meta-item">—</span>
+            <button id="btn-new-file" class="btn-ghost btn-sm">New file</button>
+        </div>
+
+        <!-- ── Preview grid ──────────────────────────────────────── -->
+        <div class="preview-grid" id="preview-grid">
+
+            <!-- Instagram Post (Portrait 4:5) -->
+            <div class="preview-card" data-format="ig-portrait">
+                <div class="card-header">
+                    <span class="platform-label platform-instagram">Instagram</span>
+                    <span class="format-label">Post · 4:5 portrait</span>
+                </div>
+                <div class="card-stage-wrapper">
+                    <div class="phone-chrome phone-chrome--portrait">
+                        <div class="phone-status-bar">
+                            <span>9:41</span><span>●●●</span>
+                        </div>
+                        <div class="ig-header">
+                            <div class="ig-avatar"></div>
+                            <span class="ig-username">your_handle</span>
+                            <span class="ig-follow">Follow</span>
+                        </div>
+                        <div
+                                class="crop-stage active-stage"
+                                id="stage-ig-portrait"
+                                data-ratio="0.8"
+                                data-format="ig-portrait"
+                        >
+                            <img id="img-ig-portrait" class="stage-image" alt="" draggable="false" />
+                            <div class="letterbox letterbox-top hidden"></div>
+                            <div class="letterbox letterbox-bottom hidden"></div>
+                        </div>
+                        <div class="ig-footer">
+                            <span class="ig-icon">♡</span>
+                            <span class="ig-icon">💬</span>
+                            <span class="ig-icon">⤴</span>
+                            <span class="ig-icon ig-save">⊡</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-controls">
+                    <div class="landscape-toggle hidden" id="toggle-ig-portrait">
+                        <span class="toggle-label">Landscape image:</span>
+                        <button class="toggle-btn active" data-mode="crop">Crop to 4:5</button>
+                        <button class="toggle-btn" data-mode="letterbox">Letterbox</button>
+                    </div>
+                    <div class="zoom-row">
+                        <label for="zoom-ig-portrait">Zoom</label>
+                        <input type="range" id="zoom-ig-portrait" class="zoom-slider" min="100" max="500" value="100" />
+                        <span class="zoom-value" id="zval-ig-portrait">100%</span>
+                    </div>
+                    <div class="crop-info">
+                        <span id="crop-dims-ig-portrait" class="crop-dim">—</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Instagram Grid Thumbnail (3:4) -->
+            <div class="preview-card" data-format="ig-grid">
+                <div class="card-header">
+                    <span class="platform-label platform-instagram">Instagram</span>
+                    <span class="format-label">Grid thumbnail · 3:4</span>
+                </div>
+                <div class="card-stage-wrapper">
+                    <div class="ig-grid-mock">
+                        <div class="ig-grid-row">
+                            <div class="ig-grid-cell ig-grid-cell--placeholder"></div>
+                            <div class="ig-grid-cell ig-grid-cell--placeholder"></div>
+                            <div class="ig-grid-cell ig-grid-cell--placeholder"></div>
+                        </div>
+                        <div class="ig-grid-row">
+                            <div class="ig-grid-cell ig-grid-cell--placeholder"></div>
+                            <div
+                                    class="ig-grid-cell crop-stage active-stage"
+                                    id="stage-ig-grid"
+                                    data-ratio="0.75"
+                                    data-format="ig-grid"
+                            >
+                                <img id="img-ig-grid" class="stage-image" alt="" draggable="false" />
+                            </div>
+                            <div class="ig-grid-cell ig-grid-cell--placeholder"></div>
+                        </div>
+                        <div class="ig-grid-row">
+                            <div class="ig-grid-cell ig-grid-cell--placeholder"></div>
+                            <div class="ig-grid-cell ig-grid-cell--placeholder"></div>
+                            <div class="ig-grid-cell ig-grid-cell--placeholder"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-controls">
+                    <div class="zoom-row">
+                        <label for="zoom-ig-grid">Zoom</label>
+                        <input type="range" id="zoom-ig-grid" class="zoom-slider" min="100" max="500" value="100" />
+                        <span class="zoom-value" id="zval-ig-grid">100%</span>
+                    </div>
+                    <div class="crop-info">
+                        <span id="crop-dims-ig-grid" class="crop-dim">—</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LinkedIn Post (1.91:1) -->
+            <div class="preview-card" data-format="linkedin">
+                <div class="card-header">
+                    <span class="platform-label platform-linkedin">LinkedIn</span>
+                    <span class="format-label">Feed post · 1.91:1</span>
+                </div>
+                <div class="card-stage-wrapper">
+                    <div class="feed-chrome feed-chrome--linkedin">
+                        <div class="feed-post-header">
+                            <div class="feed-avatar"></div>
+                            <div class="feed-author-info">
+                                <span class="feed-author-name">Your Name</span>
+                                <span class="feed-author-sub">Your headline · 1st</span>
+                                <span class="feed-author-sub">Just now · 🌐</span>
+                            </div>
+                        </div>
+                        <p class="feed-caption">Your caption goes here…</p>
+                        <div
+                                class="crop-stage active-stage"
+                                id="stage-linkedin"
+                                data-ratio="0.5236"
+                                data-format="linkedin"
+                        >
+                            <img id="img-linkedin" class="stage-image" alt="" draggable="false" />
+                        </div>
+                        <div class="feed-reactions">
+                            <span>👍 Like</span><span>💬 Comment</span><span>↗ Share</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-controls">
+                    <div class="zoom-row">
+                        <label for="zoom-linkedin">Zoom</label>
+                        <input type="range" id="zoom-linkedin" class="zoom-slider" min="100" max="500" value="100" />
+                        <span class="zoom-value" id="zval-linkedin">100%</span>
+                    </div>
+                    <div class="crop-info">
+                        <span id="crop-dims-linkedin" class="crop-dim">—</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Facebook Group Post (1.91:1) -->
+            <div class="preview-card" data-format="fb-post">
+                <div class="card-header">
+                    <span class="platform-label platform-facebook">Facebook</span>
+                    <span class="format-label">Group post · 1.91:1</span>
+                </div>
+                <div class="card-stage-wrapper">
+                    <div class="feed-chrome feed-chrome--facebook">
+                        <div class="feed-post-header">
+                            <div class="feed-avatar feed-avatar--facebook"></div>
+                            <div class="feed-author-info">
+                                <span class="feed-author-name">Your Name</span>
+                                <span class="feed-author-sub">Just now · 🌐</span>
+                            </div>
+                            <span class="fb-more">···</span>
+                        </div>
+                        <p class="feed-caption">Your post caption…</p>
+                        <div
+                                class="crop-stage active-stage"
+                                id="stage-fb-post"
+                                data-ratio="0.5236"
+                                data-format="fb-post"
+                        >
+                            <img id="img-fb-post" class="stage-image" alt="" draggable="false" />
+                        </div>
+                        <div class="feed-reactions feed-reactions--facebook">
+                            <span>👍 Like</span><span>💬 Comment</span><span>↗ Share</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-controls">
+                    <div class="zoom-row">
+                        <label for="zoom-fb-post">Zoom</label>
+                        <input type="range" id="zoom-fb-post" class="zoom-slider" min="100" max="500" value="100" />
+                        <span class="zoom-value" id="zval-fb-post">100%</span>
+                    </div>
+                    <div class="crop-info">
+                        <span id="crop-dims-fb-post" class="crop-dim">—</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Facebook Album Thumbnail (1:1) -->
+            <div class="preview-card" data-format="fb-album">
+                <div class="card-header">
+                    <span class="platform-label platform-facebook">Facebook</span>
+                    <span class="format-label">Album thumbnail · 1:1</span>
+                </div>
+                <div class="card-stage-wrapper">
+                    <div class="fb-album-mock">
+                        <div class="fb-album-grid">
+                            <div class="fb-album-cell fb-album-cell--placeholder"></div>
+                            <div class="fb-album-cell fb-album-cell--placeholder"></div>
+                            <div
+                                    class="fb-album-cell crop-stage active-stage"
+                                    id="stage-fb-album"
+                                    data-ratio="1"
+                                    data-format="fb-album"
+                            >
+                                <img id="img-fb-album" class="stage-image" alt="" draggable="false" />
+                            </div>
+                            <div class="fb-album-cell fb-album-cell--placeholder"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-controls">
+                    <div class="zoom-row">
+                        <label for="zoom-fb-album">Zoom</label>
+                        <input type="range" id="zoom-fb-album" class="zoom-slider" min="100" max="500" value="100" />
+                        <span class="zoom-value" id="zval-fb-album">100%</span>
+                    </div>
+                    <div class="crop-info">
+                        <span id="crop-dims-fb-album" class="crop-dim">—</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /preview-grid -->
+
+        <!-- ── Download bar ──────────────────────────────────────── -->
+        <div class="download-bar">
+            <p class="download-label">Download crop:</p>
+            <div class="download-buttons">
+                <button class="btn-download" data-format="ig-portrait">Instagram Post</button>
+                <button class="btn-download" data-format="ig-grid">Instagram Grid</button>
+                <button class="btn-download" data-format="linkedin">LinkedIn</button>
+                <button class="btn-download" data-format="fb-post">FB Post</button>
+                <button class="btn-download" data-format="fb-album">FB Album</button>
+            </div>
+        </div>
+
+    </div>
+    <!-- /workspace -->
+</main>
+
+<script src="cropper.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
