@@ -148,9 +148,13 @@
             const img = new Image();
             img.onload = () => {
                 sourceImage = img;
-                loadAllStages(img);
                 updateMeta(file, img);
-                showWorkspace();
+                showWorkspace();                      // make workspace visible first
+                requestAnimationFrame(() => {         // wait one frame for display:block to apply
+                    requestAnimationFrame(() => {       // second frame ensures offsetWidth is populated
+                        loadAllStages(img);
+                    });
+                });
             };
             img.src = e.target.result;
         };
