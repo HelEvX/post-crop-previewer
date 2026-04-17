@@ -162,6 +162,55 @@
                 </div>
             </div>
 
+            <!-- Instagram Story (9:16) -->
+            <div class="preview-card" data-format="ig-story">
+                <div class="card-header">
+                    <span class="platform-label platform-instagram">Instagram</span>
+                    <span class="format-label">Story · 9:16</span>
+                </div>
+                <div class="card-stage-wrapper">
+                    <div class="phone-chrome phone-chrome--story">
+                        <div class="phone-status-bar">
+                            <span>9:41</span><span>●●●</span>
+                        </div>
+                        <div
+                                class="crop-stage active-stage"
+                                id="stage-ig-story"
+                                data-ratio="0.5625"
+                                data-format="ig-story"
+                        >
+                            <img id="img-ig-story" class="stage-image" alt="" draggable="false" />
+                            <div class="ig-story-overlay">
+                                <div class="story-top-bar">
+                                    <div class="story-profile">
+                                        <div class="story-avatar"></div>
+                                        <div class="story-profile-text">
+                                            <span class="story-username">your_handle</span>
+                                            <span class="story-time">9h</span>
+                                        </div>
+                                    </div>
+                                    <span class="story-menu">⋮</span>
+                                </div>
+                                <div class="story-bottom-bar">
+                                    <input type="text" class="story-reply-field" placeholder="Send message" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="phone-footer"></div>
+                    </div>
+                </div>
+                <div class="card-controls">
+                    <div class="zoom-row">
+                        <label for="zoom-ig-story">Zoom</label>
+                        <input type="range" id="zoom-ig-story" class="zoom-slider" min="100" max="500" value="100" />
+                        <span class="zoom-value" id="zval-ig-story">100%</span>
+                    </div>
+                    <div class="crop-info">
+                        <span id="crop-dims-ig-story" class="crop-dim">—</span>
+                    </div>
+                </div>
+            </div>
+
             <!-- LinkedIn Post (1.91:1) -->
             <div class="preview-card" data-format="linkedin">
                 <div class="card-header">
@@ -290,6 +339,7 @@
             <div class="download-buttons">
                 <button class="btn-download" data-format="ig-portrait">Instagram Post</button>
                 <button class="btn-download" data-format="ig-grid">Instagram Grid</button>
+                <button class="btn-download" data-format="ig-story">Instagram Story</button>
                 <button class="btn-download" data-format="linkedin">LinkedIn</button>
                 <button class="btn-download" data-format="fb-post">FB Post</button>
                 <button class="btn-download" data-format="fb-album">FB Album</button>

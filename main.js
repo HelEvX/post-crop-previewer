@@ -13,10 +13,11 @@
 
     /* ── Stage definitions ────────────────────────────────────
        ratio = width / height of the crop frame
-    ─────────────────────────────────────────────────────────── */
+     ─────────────────────────────────────────────────────────── */
     const STAGES = [
         { id: "ig-portrait", ratio: 4 / 5,    hasLetterbox: true  },
         { id: "ig-grid",     ratio: 3 / 4,    hasLetterbox: false },
+        { id: "ig-story",    ratio: 9 / 16,   hasLetterbox: false },
         { id: "linkedin",    ratio: 1.91 / 1, hasLetterbox: false },
         { id: "fb-post",     ratio: 1.91 / 1, hasLetterbox: false },
         { id: "fb-album",    ratio: 1 / 1,    hasLetterbox: false },

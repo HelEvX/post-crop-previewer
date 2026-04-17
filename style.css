@@ -261,8 +261,10 @@ main {
     overflow: hidden;
     box-shadow: 0 8px 40px rgba(0,0,0,0.6);
     width: 220px;
+    position: relative;
 }
 .phone-chrome--portrait { /* portrait phone shape */ }
+.phone-chrome--story { /* story phone shape (taller) */ }
 
 .phone-status-bar {
     display: flex;
@@ -344,6 +346,100 @@ main {
     height: 100%;
     min-width: 0;
     min-height: 0;
+}
+
+/* ── Instagram Story phone chrome ────────────────────────────── */
+#stage-ig-story {
+    width: 220px;
+    height: 391px; /* 220 / 0.5625 ≈ 391 for 9:16 ratio */
+    position: relative;
+}
+
+.phone-footer {
+    height: 20px;
+    background: #fff;
+}
+
+.ig-story-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0.5rem 0.6rem;
+}
+
+.story-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.4rem;
+}
+
+.story-profile {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.story-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    flex-shrink: 0;
+    border: 1.5px solid rgba(255,255,255,0.8);
+}
+
+.story-profile-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.05rem;
+}
+
+.story-username {
+    font-size: 0.6rem;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1;
+}
+
+.story-time {
+    font-size: 0.5rem;
+    color: rgba(255,255,255,0.8);
+    line-height: 1;
+}
+
+.story-menu {
+    font-size: 0.8rem;
+    color: #fff;
+    line-height: 1;
+}
+
+.story-bottom-bar {
+    display: flex;
+    align-items: center;
+    pointer-events: auto;
+}
+
+.story-reply-field {
+    flex: 1;
+    padding: 0.35rem 0.6rem;
+    background: rgba(255,255,255,0.2);
+    border: none;
+    border-radius: 20px;
+    font-size: 0.55rem;
+    color: rgba(255,255,255,0.9);
+    font-family: var(--sans);
+    outline: none;
+}
+
+.story-reply-field::placeholder {
+    color: rgba(255,255,255,0.7);
 }
 
 /* ── Feed chrome (LinkedIn / Facebook) ────────────────────────── */
@@ -615,6 +711,7 @@ main {
 
     .phone-chrome { width: 200px; }
     #stage-ig-portrait { width: 200px; height: 250px; }
+    #stage-ig-story { width: 200px; height: 356px; } /* 200 / 0.5625 ≈ 356 */
 
     .feed-chrome { width: 260px; }
     #stage-linkedin,
