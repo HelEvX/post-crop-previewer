@@ -240,6 +240,7 @@ main {
     -webkit-user-drag: none;
     pointer-events: none;
     max-width: none;
+    z-index: 1;
 }
 
 /* Letterbox bars */
@@ -371,6 +372,7 @@ main {
     flex-direction: column;
     justify-content: space-between;
     padding: 0.5rem 0.6rem;
+    z-index: 10;
 }
 
 .story-top-bar {
@@ -424,6 +426,7 @@ main {
     display: flex;
     align-items: center;
     pointer-events: auto;
+    z-index: 11;
 }
 
 .story-reply-field {
@@ -436,6 +439,7 @@ main {
     color: rgba(255,255,255,0.9);
     font-family: var(--sans);
     outline: none;
+    z-index: 11;
 }
 
 .story-reply-field::placeholder {
